@@ -1,0 +1,28 @@
+# A reusable workflow that installs Open Dylan and creates a link to
+# dylan-compiler in the working directory. See the dylan-tool repository for an
+# example of use.
+
+name: install-opendylan
+
+on:
+  workflow_call:
+    inputs:
+      opendylan-version:
+        required: true
+        type: string
+
+jobs:
+  install-opendylan:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Install Open Dylan
+      env:
+        OD: ${{ inputs.opendylan-version }}
+      run: |
+        echo "Installing Open Dylan..."
+        curl -L -o opendylan.tar.bz2 https://github.com/dylan-lang/opendylan/releases/download/v${OD}.0/opendylan-${OD}-x86_64-linux.tar.bz2
+        tar xfj opendylan.tar.bz2
+        ln -s opendylan-${OD}/bin/dylan-compiler
+        echo -n "Open Dylan "
+        ./dylan-compiler -version
