@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+    - uses: actions/checkout@v2
+
     - name: Install Open Dylan
       env:
         OD: ${{ inputs.opendylan-version }}
